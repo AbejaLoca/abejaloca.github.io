@@ -34,7 +34,7 @@ function createNote() {
   });
   
   // Stripe Integration
-  const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY'); // Replace with your Stripe public key
+  const stripe = Stripe('pk_live_51R0Cz6GmDAIxa3d4MH4nJzIF3MWWI3KxOFKvZXCdCTg2bkYJohNrYPi92R92G5ev1BZ0ZDQ8GGnSZWOE3xO8C1v900suoAyobD'); // Replace with your Stripe public key
   
   const buyButtons = document.querySelectorAll(".buy-button");
   buyButtons.forEach((button) => {

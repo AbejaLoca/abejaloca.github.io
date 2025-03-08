@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,50 +7,59 @@
   <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
+  <!-- Language Selection Pop-up -->
+  <div id="language-popup" class="popup">
+    <div class="popup-content">
+      <h2>Select your language / Selecciona tu idioma</h2>
+      <button id="english-btn">English</button>
+      <button id="spanish-btn">Español</button>
+    </div>
+  </div>
+
   <!-- Floating Music Notes Container -->
   <div id="floating-notes"></div>
 
   <header>
-    <img src="assets/abejaloca.png" alt="Crazy Bee DJ" class="mascot">
-    <h1>Welcome to AbejaLoca!</h1>
-    <p>Your destination for the craziest beats!</p>
+    <img src="assets/bee-dj.png" alt="Crazy Bee DJ" class="mascot">
+    <h1 data-lang="welcome">¡Bienvenido a AbejaLoca.com!</h1>
+    <p data-lang="description">¡Tu destino para los ritmos más locos!</p>
   </header>
   <nav>
-    <a href="index.html">Home</a>
-    <a href="store.html">Store</a>
-    <a href="tos.html">Terms of Service</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="user-agreement.html">User Agreement</a>
+    <a href="index.html" data-lang="home">Inicio</a>
+    <a href="store.html" data-lang="store">Tienda</a>
+    <a href="tos.html" data-lang="tos">Términos de Servicio</a>
+    <a href="privacy.html" data-lang="privacy">Política de Privacidad</a>
+    <a href="user-agreement.html" data-lang="agreement">Acuerdo de Usuario</a>
   </nav>
   <section class="featured">
-    <h2>Featured Track</h2>
+    <h2 data-lang="featured">Canción Destacada</h2>
     <div class="music-item">
       <img src="assets/music1.jpg" alt="Music 1" class="music-cover">
-      <h3>Track 1 - "Crazy Bee Groove"</h3>
-      <p class="description">A high-energy electronic track with buzzing basslines and hypnotic beats. Perfect for your next party!</p>
+      <h3 data-lang="trackName">Canción 1 - "El Ritmo de la Abeja Loca"</h3>
+      <p class="description" data-lang="trackDescription">Una pista electrónica llena de energía con bajos zumbantes y ritmos hipnóticos. ¡Perfecta para tu próxima fiesta!</p>
       <p class="price">$5.00</p>
-      <a href="store.html" class="buy-button">Buy Now</a>
+      <a href="store.html" class="buy-button" data-lang="buyNow">Comprar Ahora</a>
     </div>
   </section>
   <section class="about">
-    <h2>About AbejaLoca</h2>
-    <p>We are a buzzing music label dedicated to delivering the craziest beats straight from the hive. Our mascot, the Crazy Bee DJ, is here to make sure your music experience is unforgettable!</p>
+    <h2 data-lang="about">Sobre AbejaLoca</h2>
+    <p data-lang="aboutText">Somos un sello musical que ofrece los ritmos más locos directamente desde la colmena. ¡Nuestra mascota, la Abeja DJ Loca, está aquí para que tu experiencia musical sea inolvidable!</p>
     <div class="mission">
-      <h3>Our Mission</h3>
-      <p>At AbejaLoca, our mission is to create music that inspires energy, joy, and creativity. We believe in the power of music to bring people together, and we strive to produce tracks that make you move, groove, and feel alive. Like bees pollinating flowers, we aim to spread positivity and excitement through our beats.</p>
+      <h3 data-lang="mission">Nuestra Misión</h3>
+      <p data-lang="missionText">En AbejaLoca, nuestra misión es crear música que inspire energía, alegría y creatividad. Creemos en el poder de la música para unir a las personas y nos esforzamos por producir canciones que te hagan mover, bailar y sentir vivo. Como las abejas polinizan las flores, queremos esparcir positividad y emoción a través de nuestros ritmos.</p>
     </div>
     <div class="values">
-      <h3>Our Values</h3>
+      <h3 data-lang="values">Nuestros Valores</h3>
       <ul>
-        <li><strong>Creativity:</strong> We push boundaries to create unique and innovative sounds.</li>
-        <li><strong>Community:</strong> We believe in building a hive of music lovers who support and inspire each other.</li>
-        <li><strong>Quality:</strong> Every track is crafted with care to ensure the best listening experience.</li>
-        <li><strong>Fun:</strong> Life’s too short for boring music—our beats are designed to make you smile and dance!</li>
+        <li><strong data-lang="creativity">Creatividad:</strong> <span data-lang="creativityText">Rompemos barreras para crear sonidos únicos e innovadores.</span></li>
+        <li><strong data-lang="community">Comunidad:</strong> <span data-lang="communityText">Creemos en construir una colmena de amantes de la música que se apoyan e inspiran mutuamente.</span></li>
+        <li><strong data-lang="quality">Calidad:</strong> <span data-lang="qualityText">Cada canción está elaborada con cuidado para garantizar la mejor experiencia auditiva.</span></li>
+        <li><strong data-lang="fun">Diversión:</strong> <span data-lang="funText">La vida es demasiado corta para música aburrida. ¡Nuestros ritmos están diseñados para hacerte sonreír y bailar!</span></li>
       </ul>
     </div>
   </section>
   <footer>
-    <p>&copy; 2023 AbejaLoca.com. All rights reserved.</p>
+    <p data-lang="footer">&copy; 2023 AbejaLoca.com. Todos los derechos reservados.</p>
   </footer>
   <script src="scripts/index.js"></script>
 </body>
