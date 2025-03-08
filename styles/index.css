@@ -1,0 +1,197 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9e79f; /* Light yellow background */
+    color: #000;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #f1c40f; /* Bright yellow */
+    padding: 20px;
+  }
+  
+  header h1 {
+    margin: 10px 0;
+    font-size: 2.5rem;
+  }
+  
+  header p {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+  
+  .mascot {
+    width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  nav {
+    background-color: #000; /* Black navigation bar */
+    padding: 10px;
+  }
+  
+  nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #f1c40f; /* Yellow text */
+    font-weight: bold;
+  }
+  
+  nav a:hover {
+    color: #fff; /* White text on hover */
+  }
+  
+  /* Featured Track Section */
+  .featured {
+    margin: 30px auto;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .music-item {
+    text-align: center;
+  }
+  
+  .music-cover {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .music-item h3 {
+    font-size: 1.8rem;
+    margin: 10px 0;
+  }
+  
+  .music-item .description {
+    font-size: 1rem;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .music-item .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f1c40f;
+    margin: 10px 0;
+  }
+  
+  .buy-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f1c40f;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .buy-button:hover {
+    background-color: #e67e22; /* Orange on hover */
+  }
+  
+  /* About Section */
+  .about {
+    margin: 30px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .about h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+  
+  .about p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .mission, .values {
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .mission h3, .values h3 {
+    font-size: 1.5rem;
+    color: #f1c40f;
+    margin-bottom: 10px;
+  }
+  
+  .values ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .values li {
+    font-size: 1rem;
+    color: #555;
+    margin: 10px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  
+  .values li::before {
+    content: "🐝"; /* Bee emoji for bullet points */
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #000; /* Black footer */
+    color: #f1c40f;
+    padding: 10px;
+    margin-top: 30px;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+
+  /* Floating Music Notes */
+  #floating-notes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Ensure notes don't interfere with clicks */
+    overflow: hidden;
+    z-index: 1; /* Keep notes behind content */
+  }
+
+  .note {
+    position: absolute;
+    font-size: 24px;
+    animation: float 5s infinite linear;
+    opacity: 0.7;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) translateX(0);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10vh) translateX(0);
+      opacity: 0;
+    }
+  }

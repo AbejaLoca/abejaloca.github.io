@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AbejaLoca.com - Store</title>
+  <link rel="stylesheet" href="styles/store.css">
+  <script src="https://js.stripe.com/v3/"></script> <!-- Stripe.js -->
+</head>
+<body>
+  <!-- Floating Music Notes Container -->
+  <div id="floating-notes"></div>
+
+  <header>
+    <img src="assets/abejaloca.png" alt="Crazy Bee DJ" class="mascot">
+    <h1>The Store</h1>
+    <p>Get your crazy beats here!</p>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="store.html">Store</a>
+    <a href="tos.html">Terms of Service</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="user-agreement.html">User Agreement</a>
+  </nav>
+  <section class="store">
+    <h2>Music Tracks</h2>
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search for tracks...">
+      <button id="search-button">Search</button>
+    </div>
+    <!-- Product Grid -->
+    <div class="product-grid" id="product-grid">
+      <!-- Product 1 -->
+      <div class="product-item" data-name="Crazy Bee Groove">
+        <img src="assets/music1.jpg" alt="Crazy Bee Groove">
+        <h3>Crazy Bee Groove</h3>
+        <p class="description">A high-energy electronic track with buzzing basslines and hypnotic beats.</p>
+        <p class="price">$5.00</p>
+        <button class="buy-button" data-product-id="YOUR_STRIPE_PRICE_ID_1">Buy Now</button>
+      </div>
+      <!-- Add more products here in the future -->
+    </div>
+  </section>
+  <footer>
+    <p>&copy; 2023 AbejaLoca.com. All rights reserved.</p>
+  </footer>
+  <script src="scripts/store.js"></script>
+</body>
+</html>

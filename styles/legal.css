@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9e79f;
+    color: #000;
+    text-align: center;
+  }
+  
+  header {
+    background-color: #f1c40f;
+    padding: 20px;
+  }
+  
+  .mascot {
+    width: 150px;
+    height: auto;
+  }
+  
+  nav {
+    margin: 20px 0;
+  }
+  
+  nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .content {
+    text-align: left;
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+  
+  footer {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f1c40f;
+  }
