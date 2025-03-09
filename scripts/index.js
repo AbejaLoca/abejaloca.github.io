@@ -26,8 +26,8 @@ const translations = {
     privacy: "Política de Privacidad",
     agreement: "Acuerdo de Usuario",
     featured: "Canción Destacada",
-    trackName: "Canción 1 - El Ritmo de la Abeja Loca",
-    trackDescription: "Una pista electrónica llena de energía con bajos zumbantes y ritmos hipnóticos. ¡Perfecta para tu próxima fiesta!",
+    trackName: "1500 canciones en un USB",
+    trackDescription: "1500 canciones en un USB para que disfrutes en cualquier lugar",
     buyNow: "Comprar Ahora",
     about: "Sobre AbejaLoca",
     aboutText: "Somos un sello musical que ofrece los ritmos más locos directamente desde la colmena. ¡Nuestra mascota, la Abeja DJ Loca, está aquí para que tu experiencia musical sea inolvidable!",
@@ -42,7 +42,7 @@ const translations = {
     qualityText: "Cada canción está elaborada con cuidado para garantizar la mejor experiencia auditiva.",
     fun: "Diversión",
     funText: "La vida es demasiado corta para música aburrida. ¡Nuestros ritmos están diseñados para hacerte sonreír y bailar!",
-    footer: "&copy; 2023 AbejaLoca.com. Todos los derechos reservados.",
+    footer: "2025 AbejaLoca.com. Todos los derechos reservados.",
   },
   en: {
     welcome: "Welcome to AbejaLoca.com!",
@@ -53,8 +53,8 @@ const translations = {
     privacy: "Privacy Policy",
     agreement: "User Agreement",
     featured: "Featured Track",
-    trackName: "Track 1 - Crazy Bee Groove",
-    trackDescription: "A high-energy electronic track with buzzing basslines and hypnotic beats. Perfect for your next party!",
+    trackName: "1500 Songs in a USB",
+    trackDescription: "1500 Songs in a USB for you to enjoy anywhere!",
     buyNow: "Buy Now",
     about: "About AbejaLoca",
     aboutText: "We are a buzzing music label dedicated to delivering the craziest beats straight from the hive. Our mascot, the Crazy Bee DJ, is here to make sure your music experience is unforgettable!",
@@ -69,7 +69,7 @@ const translations = {
     qualityText: "Every track is crafted with care to ensure the best listening experience.",
     fun: "Fun",
     funText: "Life’s too short for boring music—our beats are designed to make you smile and dance!",
-    footer: "&copy; 2023 AbejaLoca.com. All rights reserved.",
+    footer: "2025 AbejaLoca.com. All rights reserved.",
   },
 };
 
@@ -87,9 +87,14 @@ function applyLanguage(language) {
 // Check if the user has already selected a language
 const userLanguage = localStorage.getItem("language");
 
+// Apply the saved language immediately (before the page loads)
+if (userLanguage) {
+  applyLanguage(userLanguage);
+}
+
 // Show the pop-up if no language is selected
+const popup = document.getElementById("language-popup");
 if (!userLanguage) {
-  const popup = document.getElementById("language-popup");
   popup.style.display = "flex";
 
   // Handle language selection
@@ -97,23 +102,24 @@ if (!userLanguage) {
     localStorage.setItem("language", "en");
     popup.style.display = "none";
     applyLanguage("en");
+    location.reload(); // Reload the page to apply changes
   });
 
   document.getElementById("spanish-btn").addEventListener("click", () => {
     localStorage.setItem("language", "es");
     popup.style.display = "none";
     applyLanguage("es");
+    location.reload(); // Reload the page to apply changes
   });
 } else {
-  // Apply the saved language
-  applyLanguage(userLanguage);
+  popup.style.display = "none"; // Hide the pop-up if language is already selected
 }
 
-// Apply translations on page load
-window.addEventListener("load", () => {
-  const language = localStorage.getItem("language") || "es";
-  applyLanguage(language);
-});
+// Debugging: Log the current language
+console.log("Current language:", localStorage.getItem("language"));
+
+// Debugging: Log the current language
+console.log("Current language:", localStorage.getItem("language"));
 
 const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY'); // Replace with your Stripe public key
 

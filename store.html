@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AbejaLoca.com - Store</title>
   <link rel="stylesheet" href="styles/store.css">
-  <script src="https://js.stripe.com/v3/"></script> <!-- Stripe.js -->
   <script async
   src="https://js.stripe.com/v3/buy-button.js">
 </script>
 
 </head>
 <body>
+  <!-- Language Selection Pop-up -->
+  <div id="language-popup" class="popup">
+    <div class="popup-content">
+      <h2>Select your language / Selecciona tu idioma</h2>
+      <button id="english-btn">English</button>
+      <button id="spanish-btn">Español</button>
+    </div>
+  </div>
+
   <!-- Floating Music Notes Container -->
   <div id="floating-notes"></div>
 
   <header>
     <img src="assets/abejaloca.png" alt="Crazy Bee DJ" class="mascot">
-    <h1>The Store</h1>
-    <p>Get your crazy beats here!</p>
+    <h1 data-lang="welcome">¡Bienvenido a AbejaLoca.com!</h1>
+    <p data-lang="description">¡Tu destino para los ritmos más locos!</p>
   </header>
   <nav>
-    <a href="index.html">Home</a>
-    <a href="store.html">Store</a>
-    <a href="tos.html">Terms of Service</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="user-agreement.html">User Agreement</a>
+    <a href="index.html" data-lang="home">Inicio</a>
+    <a href="store.html" data-lang="store">Tienda</a>
+    <!--
+    <a href="tos.html" data-lang="tos">Términos de Servicio</a>
+    <a href="privacy.html" data-lang="privacy">Política de Privacidad</a>
+    <a href="user-agreement.html" data-lang="agreement">Acuerdo de Usuario</a>
+    -->
   </nav>
   <section class="store">
-    <h2>Music Tracks</h2>
+    <h2 data-lang="featured">Canción Destacada</h2>
     <!-- Search Bar -->
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search for tracks...">
@@ -38,9 +48,8 @@
     <div class="product-grid" id="product-grid">
       <!-- Product 1 -->
       <div class="product-item" data-name="Crazy Bee Groove">
-        <h3>1,500 Canciones en USB </h3>
-        <p class="description">1500 canciones para que disfrutes en un usb</p>
-        <p class="price">$20.00</p>
+        <h3 data-lang="trackName">1500 canciones en un USB</h3>
+        <p class="description" data-lang="trackDescription">1500 canciones en un USB para que disfrutes en cualquier lugar</p>
         <stripe-buy-button
   buy-button-id="buy_btn_1R0GgmGmDAIxa3d4LHmUoItd"
   publishable-key="pk_live_51R0Cz6GmDAIxa3d4MH4nJzIF3MWWI3KxOFKvZXCdCTg2bkYJohNrYPi92R92G5ev1BZ0ZDQ8GGnSZWOE3xO8C1v900suoAyobD"
@@ -51,7 +60,7 @@
     </div>
   </section>
   <footer>
-    <p>&copy; 2023 AbejaLoca.com. All rights reserved.</p>
+    <p data-lang="footer">&copy; 2023 AbejaLoca.com. Todos los derechos reservados.</p>
   </footer>
   <script src="scripts/store.js"></script>
 </body>
