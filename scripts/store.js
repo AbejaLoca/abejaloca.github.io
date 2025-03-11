@@ -109,27 +109,4 @@ searchButton.addEventListener("click", () => {
   });
 });
 
-// Stripe Integration
-const stripe = Stripe('YOUR_STRIPE_PUBLIC_KEY'); // Replace with your Stripe public key
-
-const buyButtons = document.querySelectorAll(".buy-button");
-buyButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const productId = button.getAttribute("data-product-id");
-
-    stripe.redirectToCheckout({
-      lineItems: [{ price: productId, quantity: 1 }],
-      mode: "payment",
-      successUrl: "https://abejaloca.com/success", // Replace with your success URL
-      cancelUrl: "https://abejaloca.com/cancel", // Replace with your cancel URL
-    }).then((result) => {
-      if (result.error) {
-        alert(result.error.message);
-      }
-    });
-  });
-});
-
-// Debugging: Log the current language
-console.log("Current language:", localStorage.getItem("language"));
   
