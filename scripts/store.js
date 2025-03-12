@@ -27,7 +27,9 @@ const translations = {
     agreement: "Acuerdo de Usuario",
     featured: "Canción Destacada",
     trackName: "1500 canciones en un USB",
+    trackName2: "Guitarras y violines vol 1, 24 Albums en USB",
     trackDescription: "1500 canciones en un USB para que disfrutes en cualquier lugar",
+    trackDescription2: "Guitarras y violines vol 1, 24 Albums en USB para que disfrutes",
     buyNow: "Comprar Ahora",
     footer: "2025 AbejaLoca.com. Todos los derechos reservados.",
   },
@@ -42,7 +44,9 @@ const translations = {
     agreement: "User Agreement",
     featured: "Featured Track",
     trackName: "1500 Songs in a USB",
+    trackName2: "Guitars and Violins Vol. 1, 24 Albums on USB",
     trackDescription: "1500 songs in a USB for you to enjoy anywhere!",
+    trackDescription2: "Guitars and Violins Vol. 1, 24 USB Albums for your enjoyment",
     buyNow: "Buy Now",
     footer: "2025 AbejaLoca.com. All rights reserved.",
   },
@@ -96,17 +100,31 @@ const searchButton = document.getElementById("search-button");
 const productGrid = document.getElementById("product-grid");
 
 searchButton.addEventListener("click", () => {
-  const searchTerm = searchInput.value.toLowerCase();
+  const searchTerm = searchInput.value.toLowerCase().trim();
   const products = productGrid.querySelectorAll(".product-item");
 
   products.forEach((product) => {
     const productName = product.getAttribute("data-name").toLowerCase();
     if (productName.includes(searchTerm)) {
-      product.style.display = "block";
+      product.style.display = "block"; // Show the product if it matches the search term
     } else {
-      product.style.display = "none";
+      product.style.display = "none"; // Hide the product if it doesn't match
     }
   });
 });
 
+// Add real-time search functionality (optional)
+searchInput.addEventListener("input", () => {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  const products = productGrid.querySelectorAll(".product-item");
+
+  products.forEach((product) => {
+    const productName = product.getAttribute("data-name").toLowerCase();
+    if (productName.includes(searchTerm)) {
+      product.style.display = "block"; // Show the product if it matches the search term
+    } else {
+      product.style.display = "none"; // Hide the product if it doesn't match
+    }
+  });
+});
   

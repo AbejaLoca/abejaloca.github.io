@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AbejaLoca (CrazyBee) - Buy Music</title>
+  <link rel="stylesheet" href="styles/product1.css">
+</head>
+<body>
+
+       <!-- Language Selection Pop-up -->
+       <div id="language-popup" class="popup">
+        <div class="popup-content">
+          <h2>Select your language / Selecciona tu idioma</h2>
+          <button id="english-btn">English</button>
+          <button id="spanish-btn">Español</button>
+        </div>
+      </div>
+
+            <!-- Floating Music Notes Container -->
+  <div id="floating-notes"></div>
+
+
+
+
+
+    <nav>
+        <a href="index.html" data-lang="home">Inicio</a>
+        <a href="store.html" data-lang="store">Tienda</a>
+        <a href="donation.html" data-lang="donation">Donación</a>
+        <!--
+        <a href="tos.html" data-lang="tos">Términos de Servicio</a>
+        <a href="privacy.html" data-lang="privacy">Política de Privacidad</a>
+        <a href="user-agreement.html" data-lang="agreement">Acuerdo de Usuario</a>
+        -->
+      </nav>
+
+  <div class="container">
+    <!-- Left Column: Stripe Buy Button (Sticky on Desktop) -->
+    <div class="left-column">
+      <div class="stripe-button-container">
+        <img src="assets/abejaloca.png" alt="Be e Icon" class="bee-icon">
+        <h1>AbejaLoca</h1>
+        <h2 data-lang="soul">Rock Music for Your Soul</h2>
+        <!-- Stripe Buy Button -->
+        <script async
+        src="https://js.stripe.com/v3/buy-button.js">
+      </script>
+      
+      <stripe-buy-button
+        buy-button-id="buy_btn_1R1j2xGmDAIxa3d4YPkOXTPS"
+        publishable-key="pk_live_51R0Cz6GmDAIxa3d4MH4nJzIF3MWWI3KxOFKvZXCdCTg2bkYJohNrYPi92R92G5ev1BZ0ZDQ8GGnSZWOE3xO8C1v900suoAyobD"
+      >
+      </stripe-buy-button>
+      </div>
+    </div>
+
+    <!-- Right Column: Product Description -->
+    <div class="right-column">
+      <div class="product-description">
+        <h3 data-lang="songs">🎵 Guitarras y violines vol 1, 24 Albums en USB</h3>
+        <p data-lang="desc">
+          ¡Sumérgete en los vibrantes sonidos de AbejaLoca! Guitarras y violines vol 1, 24 Albums que harán vibrar tu corazón de alegría. Perfecto para cualquier ocasión, este álbum es tu boleto a un viaje musical sin igual.
+        </p>
+        <p>
+          <strong data-lang="track">Album List:</strong>
+          <ul class="bee-bullets">
+
+                <li>Alma de huetamo michoacan</li>
+                <li>chano y chon</li>
+                <li>conjunto michoacan</li>
+                <li>dueto azteca</li>
+                <li>dueto quintanilla</li>
+                <li>duetos famosos</li>
+                <li>el palomo y el gorrion</li>
+                <li>Hermanas huerta</li>
+                <li>hermanas lima</li>
+                <li>Hermanas nunez</li>
+                <li>hermanas padilla</li>
+                <li>hermanos zaizar</li>
+                <li>los Alegres de teran</li>
+                <li>los campiones de michoacan</li>
+                <li>los donnenos</li>
+                <li>los dos oros</li>
+                <li>los gorriones del topo chico</li>
+                <li>los hermanos banda</li>
+                <li>los tres diamantes</li>
+                <li>Marcelo Y aurelia</li>
+                <li>rita y jose</li>
+                <li>tercia de violines</li>
+                <li>trio armonia huasteca</li>
+
+          </ul>
+        </p>
+        <p>
+          <strong data-lang="why">Why Choose AbejaLoca?</strong><br>
+          Our music is crafted with passion and creativity, designed to uplift your spirits and get you moving. Every track is a unique experience, blending genres and styles to create something truly special.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer data-lang="footer">
+    Thank you for supporting the hive! 🐝 Your purchase helps us create more music for you to enjoy.
+  </footer>
+  <script src="scripts/product2.js"></script>
+</body>
+</html>
