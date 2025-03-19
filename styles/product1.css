@@ -127,7 +127,7 @@ footer {
 
   nav a {
     margin: 5px 10px; /* Smaller margin for mobile */
-    font-size: 0.9rem; /* Smaller font size for mobile */
+    font-size: 1.5rem; /* Smaller font size for mobile */
   }
 
 
@@ -136,7 +136,7 @@ footer {
 
 nav {
   background-color: #000; /* Black navigation bar */
-  padding: 10px;
+  padding: 15px;
 }
 
 nav a {
@@ -144,7 +144,7 @@ nav a {
   text-decoration: none;
   color: #f1c40f; /* Yellow text */
   font-weight: bold;
-  font-size: 1rem; /* Desktop font size */
+  font-size: 1.5rem; /* Desktop font size */
 }
 
 nav a:hover {

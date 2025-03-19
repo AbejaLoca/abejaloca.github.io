@@ -16,13 +16,16 @@ body {
   }
   
   nav {
-    margin: 20px 0;
+    background-color: #000; /* Black navigation bar */
+    padding: 15px;
   }
   
   nav a {
-    margin: 0 10px;
+    margin: 0 15px; /* Desktop spacing */
     text-decoration: none;
-    color: #000;
+    color: #f1c40f; /* Yellow text */
+    font-weight: bold;
+    font-size: 1.5rem; /* Desktop font size */
   }
   
   .content {

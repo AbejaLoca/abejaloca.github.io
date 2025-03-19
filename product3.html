@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AbejaLoca (CrazyBee) - Buy Music</title>
+  <link rel="stylesheet" href="styles/product3.css">
+</head>
+<body>
+
+       <!-- Language Selection Pop-up -->
+       <div id="language-popup" class="popup">
+        <div class="popup-content">
+          <h2>Select your language / Selecciona tu idioma</h2>
+          <button id="english-btn">English</button>
+          <button id="spanish-btn">Español</button>
+        </div>
+      </div>
+
+            <!-- Floating Music Notes Container -->
+  <div id="floating-notes"></div>
+
+
+
+
+
+    <nav>
+        <a href="index.html" data-lang="home">Inicio</a>
+        <a href="store.html" data-lang="store">Tienda</a>
+        <a href="donation.html" data-lang="donation">Donación</a>
+        <!--
+        <a href="tos.html" data-lang="tos">Términos de Servicio</a>
+        <a href="privacy.html" data-lang="privacy">Política de Privacidad</a>
+        <a href="user-agreement.html" data-lang="agreement">Acuerdo de Usuario</a>
+        -->
+      </nav>
+
+  <div class="container">
+    <!-- Left Column: Stripe Buy Button (Sticky on Desktop) -->
+    <div class="left-column">
+      <div class="stripe-button-container">
+        <img src="assets/abejaloca.png" alt="Be e Icon" class="bee-icon">
+        <h1>AbejaLoca</h1>
+        <h2 data-lang="soul">Corridos for Your Soul</h2>
+        <!-- Stripe Buy Button -->
+        <script async
+        src="https://js.stripe.com/v3/buy-button.js">
+      </script>
+      
+      <stripe-buy-button
+        buy-button-id="buy_btn_1R4E0WGmDAIxa3d47DSWP4kh"
+        publishable-key="pk_live_51R0Cz6GmDAIxa3d4MH4nJzIF3MWWI3KxOFKvZXCdCTg2bkYJohNrYPi92R92G5ev1BZ0ZDQ8GGnSZWOE3xO8C1v900suoAyobD"
+      >
+      </stripe-buy-button>
+      </div>
+    </div>
+
+    <!-- Right Column: Product Description -->
+    <div class="right-column">
+      <div class="product-description">
+        <h3 data-lang="songs">🎵 Corridos y Norteños, 1200 canciones en un usb</h3>
+        <p data-lang="desc">
+          ¡Sumérgete en los vibrantes sonidos de AbejaLoca! Corridos y Norteños, 1200 canciones que harán vibrar tu corazón de alegría. Perfecto para cualquier ocasión, este álbum es tu boleto a un viaje musical sin igual.
+        </p>
+        <p>
+          <strong data-lang="track">Song List:</strong>
+          <ul class="bee-bullets">
+
+ 
+                <li>1200 canciones de corridos y corridos norteno</li>
+                <li>esta una pequena lista de las canciones</li>
+                <li></li>
+                <li>CORRIDOS</li>
+                <li>cuando te acuerdas se mi INTRO MIX</li>
+                <li>CABRON Y VAGO - EL FANTASMA FT. LOS DOS CARNALES</li>
+                <li>Mi Religión - t3r elemento</li>
+                <li>Cosas De La Clica - Herencia De Patrones ft. Legado 7 y Fuerza Regida</li>
+                <li>El Envidioso</li>
+                <li>EL MALO - CARIN LEON</li>
+                <li>Los Dos Carnales - El 13</li>
+                <li>Los Dos Carnales - El Pollo</li>
+                <li>18 LLANTAS - FUERZA REGIDA</li>
+                <li>Dos Plumas(Fuerza Regida) Letra) GRUPO FIRME - Como le Digo</li>
+                <li>Los Dos Carnales Ft. Banda Los Populares Del Llano - Resulta</li>
+                <li>Por Calles de San Jose</li>
+                <li>El Lokeron  - Tito Double p</li>
+                <li>Fuerza Regida x Natanael Cano - CH Y LA PIZZA</li>
+                <li>Fuerza Regida X Peso Pluma - Igualito A Mi Apá</li>
+                <li>Junior H con Banda - El Hijo Mayor</li>
+                <li>Peso Pluma, Natanael Cano - PRC</li>
+                <li>Xavi - La Diabla</li>
+                <li>Luis R Conriquez Neton Vega  Si No Quieres No</li>
+                <li>Cuando Te Acuerdes De Mi - Luis R Conriquez, Julian Mercado</li>
+        
+
+          </ul>
+        </p>
+       
+          <strong data-lang="why1">Why Choose AbejaLoca?</strong><br>
+           <p data-lang="why2">Our music is crafted with passion and creativity, designed to uplift your spirits and get you moving. Every track is a unique experience, blending genres and styles to create something truly special.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer data-lang="footer">
+    Thank you for supporting the hive! 🐝 Your purchase helps us create more music for you to enjoy.
+  </footer>
+  <script src="scripts/product3.js"></script>
+</body>
+</html>
