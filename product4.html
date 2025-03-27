@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AbejaLoca (CrazyBee) - Buy Music</title>
+  <link rel="stylesheet" href="styles/product3.css">
+</head>
+<body>
+
+       <!-- Language Selection Pop-up -->
+       <div id="language-popup" class="popup">
+        <div class="popup-content">
+          <h2>Select your language / Selecciona tu idioma</h2>
+          <button id="english-btn">English</button>
+          <button id="spanish-btn">Español</button>
+        </div>
+      </div>
+
+            <!-- Floating Music Notes Container -->
+  <div id="floating-notes"></div>
+
+
+
+
+
+    <nav>
+        <a href="index.html" data-lang="home">Inicio</a>
+        <a href="store.html" data-lang="store">Tienda</a>
+        <a href="donation.html" data-lang="donation">Donación</a>
+        <!--
+        <a href="tos.html" data-lang="tos">Términos de Servicio</a>
+        <a href="privacy.html" data-lang="privacy">Política de Privacidad</a>
+        <a href="user-agreement.html" data-lang="agreement">Acuerdo de Usuario</a>
+        -->
+      </nav>
+
+  <div class="container">
+    <!-- Left Column: Stripe Buy Button (Sticky on Desktop) -->
+    <div class="left-column">
+      <div class="stripe-button-container">
+        <img src="assets/abejaloca.png" alt="Be e Icon" class="bee-icon">
+        <h1>AbejaLoca</h1>
+        <h2 data-lang="soul">Albums for Your Soul</h2>
+        <script async
+        src="https://js.stripe.com/v3/buy-button.js">
+      </script>
+      
+      <stripe-buy-button
+        buy-button-id="buy_btn_1R78S6GmDAIxa3d4MS625ylR"
+        publishable-key="pk_live_51R0Cz6GmDAIxa3d4MH4nJzIF3MWWI3KxOFKvZXCdCTg2bkYJohNrYPi92R92G5ev1BZ0ZDQ8GGnSZWOE3xO8C1v900suoAyobD"
+      >
+      </stripe-buy-button>
+      </div>
+    </div>
+
+    <!-- Right Column: Product Description -->
+    <div class="right-column">
+      <div class="product-description">
+        <h3 data-lang="songs">🎵 Tercia De Reyes Vol. 1</h3>
+        <p data-lang="desc">
+            Albums de los 3 Reyes!
+        </p>
+        <p>
+          <strong data-lang="track">Song List:</strong>
+          <ul class="bee-bullets">
+
+ 
+
+                <li>tercia se reyes  1300 exitos</li>
+                <li>ANTONIO AGUILAS</li>
+                <li></li>
+                <li>El hijo desobediente </li>
+                <li>La cruda</li>
+                <li>el chivo</li>
+                <li>El patas blancas</li>
+                <li>Echale un quinto al piano</li>
+                <li>Arrboles de la barranca</li>
+                <li>un puno de tierra</li>
+                <li></li>
+                <li>VICENTE FERNANDEZ</li>
+                <li></li>
+                <li>aunque mal pagen ellas</li>
+                <li>el regalo</li>
+                <li>El hijo del pueblo</li>
+                <li>Ni en defensa propia</li>
+                <li>Lastima que seas ajena</li>
+                <li>el cuatrero</li>
+                <li>Se Me Hizo Tarde La Vida</li>
+                <li></li>
+                <li>JOAN SEBASTIAN</li>
+                <li></li>
+                <li>Amor Limosnero</li>
+                <li>Y no hagas caso</li>
+                <li>Y Las Mariposas</li>
+                <li>Maracas</li>
+                <li>Sangoloteadito</li>
+                <li>La Prietita Que Yo Quiero</li>
+                <li>Mas Alla Del Sol</li>
+                <li>Juliantla</li>
+     
+          </ul>
+        </p>
+       
+          <strong data-lang="why1">Why Choose AbejaLoca?</strong><br>
+           <p data-lang="why2">Our music is crafted with passion and creativity, designed to uplift your spirits and get you moving. Every track is a unique experience, blending genres and styles to create something truly special.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer data-lang="footer">
+    Thank you for supporting the hive! 🐝 Your purchase helps us create more music for you to enjoy.
+  </footer>
+  <script src="scripts/product3.js"></script>
+</body>
+</html>

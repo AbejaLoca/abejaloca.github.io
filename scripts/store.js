@@ -26,12 +26,14 @@ const translations = {
     privacy: "Política de Privacidad",
     agreement: "Acuerdo de Usuario",
     featured: "Canción Destacada",
-    trackName: "1500 canciones en un USB",
+    trackName: "Rock Nacional, 1500 canciones en un USB!",
     trackName2: "Guitarras y violines vol 1, 24 Albums en USB",
     trackName3:"Corridos y Norteños, 1200 canciones en un usb",
+    trackName4:"Tercia de Reyes Vol. 1",
     trackDescription: "1500 canciones en un USB para que disfrutes en cualquier lugar",
     trackDescription2: "Guitarras y violines vol 1, 24 Albums en USB para que disfrutes",
     trackDescription3: "Corridos y Norteños, 1200 canciones para que disfrutes",
+    trackDescription3: "Albums de los 3 Reyes!",
     buyNow: "Comprar Ahora",
     footer: "2025 AbejaLoca.com. Todos los derechos reservados.",
   },
@@ -45,12 +47,14 @@ const translations = {
     privacy: "Privacy Policy",
     agreement: "User Agreement",
     featured: "Featured Track",
-    trackName: "1500 Songs in a USB",
+    trackName: "Rock National, 1500 songs in a USB",
     trackName2: "Guitars and Violins Vol. 1, 24 Albums on USB",
     trackName3:"Corridos y Norteños, 1200 in a usb",
+    trackName4:"Tercia de Reyes Vol. 1",
     trackDescription: "1500 songs in a USB for you to enjoy anywhere!",
     trackDescription2: "Guitars and Violins Vol. 1, 24 USB Albums for your enjoyment",
     trackDescription3: "Corridos y Norteños, 1200 for your enjoyment",
+    trackDescription3: "Three Albums from Three Kings!",
     buyNow: "Buy Now",
     footer: "2025 AbejaLoca.com. All rights reserved.",
   },
@@ -123,12 +127,18 @@ searchInput.addEventListener("input", () => {
   const products = productGrid.querySelectorAll(".product-item");
 
   products.forEach((product) => {
-    const productName = product.getAttribute("data-name").toLowerCase();
-    if (productName.includes(searchTerm)) {
-      product.style.display = "block"; // Show the product if it matches the search term
-    } else {
-      product.style.display = "none"; // Hide the product if it doesn't match
-    }
+    const productName = product.getAttribute("data-name")?.toLowerCase() || "";
+    const artistName = product.getAttribute("data-artist1")?.toLowerCase() || "";
+    const artistName2 = product.getAttribute("data-artist2")?.toLowerCase() || "";
+    const artistName3 = product.getAttribute("data-artist3")?.toLowerCase() || "";
+    
+    const isMatch = 
+      productName.includes(searchTerm) || 
+      artistName.includes(searchTerm) || 
+      artistName2.includes(searchTerm) || 
+      artistName3.includes(searchTerm);
+
+    product.style.display = isMatch ? "block" : "none";
   });
 });
   
