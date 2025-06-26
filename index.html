@@ -3,59 +3,275 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AbejaLoca.com - Home</title>
-  <link rel="stylesheet" href="styles/index.css">
+  <title>Abejaloca - Under Construction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    @keyframes buzz {
+      0% { transform: translateX(0) translateY(0) rotate(0deg); }
+      25% { transform: translateX(-1px) translateY(-1px) rotate(-0.5deg); }
+      50% { transform: translateX(1px) translateY(1px) rotate(0.5deg); }
+      75% { transform: translateX(1px) translateY(-1px) rotate(-0.5deg); }
+      100% { transform: translateX(-1px) translateY(1px) rotate(0.5deg); }
+    }
+    @keyframes flyRight {
+      0% { transform: translateX(-100px) translateY(var(--start-y)) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(calc(100vw + 100px)) translateY(var(--end-y)) rotate(360deg); opacity: 0; }
+    }
+    @keyframes flyLeft {
+      0% { transform: translateX(calc(100vw + 100px)) translateY(var(--start-y)) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(-100px) translateY(var(--end-y)) rotate(-360deg); opacity: 0; }
+    }
+    @keyframes flyDiagonal {
+      0% { transform: translateX(-100px) translateY(calc(100vh + 100px)) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(180deg); opacity: 0; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .buzz-text {
+      animation: buzz 0.1s infinite alternate;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .animate-pulse {
+      animation: pulse 2s infinite;
+    }
+    .animate-spin-slow {
+      animation: spin 8s linear infinite;
+    }
+    .honeycomb-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.1;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0V0zm10 10h80v80H10V10zm10 10h60v60H20V20zm10 10h40v40H30V30zm10 10h20v20H40V40z' fill='%23d97706' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+      background-size: 100px 100px;
+    }
+    .hexagon {
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+    .construction-border {
+      border: 8px dashed rgba(251, 191, 36, 0.7);
+      animation: borderPulse 4s infinite alternate;
+    }
+    @keyframes borderPulse {
+      0% { border-color: rgba(251, 191, 36, 0.7); }
+      100% { border-color: rgba(245, 158, 11, 0.9); }
+    }
+    .tool-animation {
+      animation: toolBounce 1.5s infinite alternate;
+    }
+    @keyframes toolBounce {
+      0% { transform: translateY(0) rotate(-5deg); }
+      100% { transform: translateY(-10px) rotate(5deg); }
+    }
+  </style>
 </head>
-<body>
-  <!-- Language Selection Pop-up -->
-  <div id="language-popup" class="popup">
-    <div class="popup-content">
-      <h2>Select your language / Selecciona tu idioma</h2>
-      <button id="english-btn">English</button>
-      <button id="spanish-btn">Español</button>
+<body class="bg-amber-50 text-gray-800 font-sans overflow-x-hidden min-h-screen flex flex-col">
+<!-- Honeycomb Background Pattern -->
+<div class="honeycomb-bg"></div>
+
+<!-- Background Bees -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+  <!-- Bees will be added here by JavaScript -->
+</div>
+
+<!-- Logo -->
+<div class="absolute top-8 left-8 z-10">
+  <img class="h-16 w-auto animate-float" src="assets/abejaloca.png" alt="Abejaloca Logo">
+</div>
+
+<!-- Language Toggle -->
+<div class="fixed bottom-4 right-4 z-[50] group">
+  <button id="languageToggle" class="bg-amber-400 hover:bg-amber-500 text-gray-800 font-bold py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 border-2 border-amber-600 flex items-center">
+    <span class="es-flag">🇪🇸</span>
+    <span class="mx-1">/</span>
+    <span class="en-flag">🇬🇧</span>
+  </button>
+  <div class="absolute right-0 mb-2 bottom-full w-48 bg-white rounded-md shadow-lg p-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+    Haz clic para cambiar el idioma / Click to change language
+  </div>
+</div>
+
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center relative z-10 px-4 py-20">
+  <div class="max-w-4xl w-full">
+    <div class="construction-border bg-white bg-opacity-90 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+      <!-- Construction elements -->
+      <div class="absolute -top-8 -left-8 text-6xl opacity-20 animate-spin-slow">🚧</div>
+      <div class="absolute -bottom-8 -right-8 text-6xl opacity-20 animate-spin-slow">🔧</div>
+
+      <div class="text-center relative z-10">
+        <!-- Animated tools -->
+        <div class="flex justify-center space-x-8 mb-8">
+          <div class="text-4xl tool-animation" style="animation-delay: 0s;">🔨</div>
+          <div class="text-4xl tool-animation" style="animation-delay: 0.3s;">🛠️</div>
+          <div class="text-4xl tool-animation" style="animation-delay: 0.6s;">🧰</div>
+        </div>
+
+        <h1 class="buzz-text text-4xl md:text-6xl font-bold text-amber-600 mb-6 translation-title">¡Estamos trabajando en el panal!</h1>
+
+        <div class="text-8xl mb-8 animate-pulse">🐝</div>
+
+        <p class="text-xl md:text-2xl text-gray-700 mb-8 translation-message">
+          Nuestro sitio web está en construcción mientras hacemos mejoras mágicas.<br>
+          ¡Pronto volveremos con una experiencia aún más dulce!
+        </p>
+
+        <div class="bg-amber-100 border-l-4 border-amber-400 p-6 rounded-lg mb-8 text-left">
+          <h3 class="text-xl font-bold text-amber-800 mb-3 translation-available">Mientras tanto...</h3>
+          <p class="text-gray-700 mb-4 translation-purchase">
+            Puedes seguir comprando nuestra música en eBay:
+          </p>
+          <a href="https://www.ebay.com/sch/i.html?item=236138940145&rt=nc&_trksid=p4429486.m3561.l161211&_ssn=abejaloca"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105">
+            <span class="translation-button">Visitar nuestra tienda en eBay</span> <i class="fas fa-external-link-alt ml-2"></i>
+          </a>
+        </div>
+
+        <p class="text-gray-600 translation-thanks">
+          ¡Gracias por tu paciencia y apoyo!<br>
+          El equipo de Abejaloca 🐝
+        </p>
+      </div>
     </div>
   </div>
+</main>
 
-  <!-- Floating Music Notes Container -->
-  <div id="floating-notes"></div>
-
-  <header>
-    <img src="assets/abejaloca.png" alt="Crazy Bee DJ" class="mascot">
-    <h1 data-lang="welcome">¡Bienvenido a AbejaLoca.com!</h1>
-    <p data-lang="description">¡Tu destino para los ritmos más locos!</p>
-  </header>
-  <nav>
-    <a href="index.html" data-lang="home">Inicio</a>
-    <a href="store.html" data-lang="store">Tienda</a>
-    <a href="donation.html" data-lang="donation">Donación</a>
-  <!--
-    <a href="tos.html" data-lang="tos">Términos de Servicio</a>
-    <a href="privacy.html" data-lang="privacy">Política de Privacidad</a>
-    <a href="user-agreement.html" data-lang="agreement">Acuerdo de Usuario</a>
-    -->
-  </nav>
-
-  <section class="about">
-    <h2 data-lang="about">Sobre AbejaLoca</h2>
-    <p data-lang="aboutText">Bienvenido a AbejaLoca, ¡tu destino ideal para escuchar música de alta calidad directamente en USB! Nos especializamos en crear colecciones de canciones premium, para que puedas disfrutar fácilmente de tus canciones favoritas en cualquier momento y lugar, sin depender de servicios de streaming.</p>
-    <div class="mission">
-      <h3 data-lang="mission">Nuestra Misión</h3>
-      <p data-lang="missionText">En AbejaLoca, nuestra misión es crear música que inspire energía, alegría y creatividad. Creemos en el poder de la música para unir a las personas y nos esforzamos por producir canciones que te hagan mover, bailar y sentir vivo. Como las abejas polinizan las flores, queremos esparcir positividad y emoción a través de nuestros ritmos.</p>
-      <p data-lang="missionText2">¿Tienes alguna solicitud especial o algún problema? ¡Estamos aquí para ayudarte! Contáctanos a través de nuestras redes sociales y nuestro equipo estará encantado de ayudarte con tus pedidos personalizados, la resolución de problemas o cualquier pregunta que tengas. ¡Tu satisfacción es nuestra prioridad!</p>
+<!-- Footer -->
+<footer class="bg-amber-600 text-white py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="flex justify-center mb-4">
+      <div class="flex space-x-4">
+        <a href="#" class="hover:text-amber-200 transition-colors duration-300 text-xl"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="hover:text-amber-200 transition-colors duration-300 text-xl"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="hover:text-amber-200 transition-colors duration-300 text-xl"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-amber-200 transition-colors duration-300 text-xl"><i class="fab fa-spotify"></i></a>
+      </div>
     </div>
-    <div class="values">
-      <h3 data-lang="medias">¡Contáctanos en!</h3>
-      <ul>
-        <li><strong data-lang="instagram">Creatividad:</strong> <a href="https://www.instagram.com/abejalocaoficial/"><span data-lang="instagramText">Rompemos barreras para crear sonidos únicos e innovadores.</span></a></li>
-        <li><strong data-lang="facebook">Comunidad:</strong> <a href="https://www.facebook.com/profile.php?id=61555019818801"><span data-lang="facebookText">Creemos en construir una colmena de amantes de la música que se apoyan e inspiran mutuamente.</span></a></li>
-        <li><strong data-lang="tiktok">Calidad:</strong> <a href="https://www.tiktok.com/@www.abejaloca.com"><span data-lang="tiktokText">Cada canción está elaborada con cuidado para garantizar la mejor experiencia auditiva.</span></a></li>
-  
-      </ul>
-    </div>
-  </section>
-  <footer>
-    <p data-lang="footer"> &copysr; 2025 AbejaLoca.com. Todos los derechos reservados.</p>
-  </footer>
-  <script src="scripts/index.js"></script>
+    <p class="mb-2 translation-footer">© 2023 Abejaloca - Todos los derechos reservados</p>
+    <p class="text-sm opacity-80 translation-footer-sub">Hecho con ❤️ y el zumbido de las abejas</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create dynamic background bees
+    const beeContainer = document.querySelector('.fixed.inset-0');
+    const beeCount = 18; // More bees for more activity
+
+    for (let i = 0; i < beeCount; i++) {
+      const bee = document.createElement('div');
+      bee.className = 'absolute text-4xl';
+      bee.innerHTML = '🐝';
+
+      // Random properties
+      const size = Math.random() * 1.5 + 0.5;
+      const startY = Math.random() * 80 + 10;
+      const endY = Math.random() * 80 + 10;
+      const duration = 10 + Math.random() * 15;
+      const delay = Math.random() * 20;
+      const zIndex = Math.floor(Math.random() * 10);
+
+      // Apply styles
+      bee.style.fontSize = `${size}rem`;
+      bee.style.setProperty('--start-y', `${startY}%`);
+      bee.style.setProperty('--end-y', `${endY}%`);
+      bee.style.animation = `${i % 3 === 0 ? 'flyDiagonal' : i % 2 === 0 ? 'flyLeft' : 'flyRight'} ${duration}s linear infinite ${delay}s`;
+      bee.style.zIndex = zIndex;
+
+      // Position
+      if (i % 3 === 0) {
+        bee.style.left = `${Math.random() * 20}%`;
+        bee.style.top = '110%';
+      } else if (i % 2 === 0) {
+        bee.style.left = '110%';
+        bee.style.top = `${startY}%`;
+      } else {
+        bee.style.left = '-10%';
+        bee.style.top = `${startY}%`;
+      }
+
+      beeContainer.appendChild(bee);
+    }
+
+    // Language toggle
+    const languageToggle = document.getElementById('languageToggle');
+    const elementsToTranslate = {
+      'title': {
+        'es': '¡Estamos trabajando en el panal!',
+        'en': 'We\'re working on the hive!'
+      },
+      'message': {
+        'es': 'Nuestro sitio web está en construcción mientras hacemos mejoras mágicas.<br>¡Pronto volveremos con una experiencia aún más dulce!',
+        'en': 'Our website is under construction as we make magical improvements.<br>We\'ll be back soon with an even sweeter experience!'
+      },
+      'available': {
+        'es': 'Mientras tanto...',
+        'en': 'In the meantime...'
+      },
+      'purchase': {
+        'es': 'Puedes seguir comprando nuestra música en eBay:',
+        'en': 'You can still purchase our music on eBay:'
+      },
+      'button': {
+        'es': 'Visitar nuestra tienda en eBay',
+        'en': 'Visit our eBay store'
+      },
+      'thanks': {
+        'es': '¡Gracias por tu paciencia y apoyo!<br>El equipo de Abejaloca 🐝',
+        'en': 'Thanks for your patience and support!<br>The Abejaloca team 🐝'
+      },
+      'footer': {
+        'es': '© 2023 Abejaloca - Todos los derechos reservados',
+        'en': '© 2023 Abejaloca - All rights reserved'
+      },
+      'footer-sub': {
+        'es': 'Hecho con ❤️ y el zumbido de las abejas',
+        'en': 'Made with ❤️ and the buzz of bees'
+      }
+    };
+
+    let currentLanguage = 'es';
+
+    languageToggle.addEventListener('click', function() {
+      currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+      translatePage();
+    });
+
+    function translatePage() {
+      document.querySelector('.translation-title').innerHTML = elementsToTranslate['title'][currentLanguage];
+      document.querySelector('.translation-message').innerHTML = elementsToTranslate['message'][currentLanguage];
+      document.querySelector('.translation-available').textContent = elementsToTranslate['available'][currentLanguage];
+      document.querySelector('.translation-purchase').textContent = elementsToTranslate['purchase'][currentLanguage];
+      document.querySelector('.translation-button').textContent = elementsToTranslate['button'][currentLanguage];
+      document.querySelector('.translation-thanks').innerHTML = elementsToTranslate['thanks'][currentLanguage];
+      document.querySelector('.translation-footer').textContent = elementsToTranslate['footer'][currentLanguage];
+      document.querySelector('.translation-footer-sub').textContent = elementsToTranslate['footer-sub'][currentLanguage];
+    }
+
+    // Initialize
+    translatePage();
+  });
+</script>
 </body>
 </html>
