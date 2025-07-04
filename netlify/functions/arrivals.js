@@ -9,16 +9,35 @@ const pool = new Pool({
 });
 
 exports.handler = async (event, context) => {
+    // Set CORS headers
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
+    };
+
+    // Handle OPTIONS request for CORS preflight
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({ message: 'CORS preflight' })
+        };
+    }
+
     if (event.httpMethod === 'GET') {
         try {
             const { rows } = await pool.query('SELECT * FROM arrivals ORDER BY created_at DESC');
             return {
                 statusCode: 200,
+                headers,
                 body: JSON.stringify(rows),
             };
         } catch (err) {
+            console.error('Database error:', err);
             return {
                 statusCode: 500,
+                headers,
                 body: JSON.stringify({ error: err.message }),
             };
         }
@@ -33,11 +52,14 @@ exports.handler = async (event, context) => {
             );
             return {
                 statusCode: 201,
+                headers,
                 body: JSON.stringify(rows[0]),
             };
         } catch (err) {
+            console.error('Database error:', err);
             return {
                 statusCode: 500,
+                headers,
                 body: JSON.stringify({ error: err.message }),
             };
         }
@@ -45,6 +67,7 @@ exports.handler = async (event, context) => {
 
     return {
         statusCode: 405,
-        body: 'Method Not Allowed',
+        headers,
+        body: JSON.stringify({ error: 'Method Not Allowed' }),
     };
 };
