@@ -434,7 +434,7 @@
                     arrivals.forEach(arrival => {
                         arrivalsContainer.prepend(createArrivalCard(arrival));
                     });
-                } else if (emptyState && arrivalsContainer.querySelector('#emptyState')) {
+                } else if (emptyState && !arrivalsContainer.querySelector('#emptyState')) {
                     // Show empty state if no arrivals
                     arrivalsContainer.innerHTML = '';
                     arrivalsContainer.appendChild(emptyState);
@@ -448,21 +448,6 @@
                     arrivalsContainer.appendChild(emptyState);
                 }
             }
-        }
-
-        // Function to handle image upload (simplified - would use a real service in production)
-        async function uploadImage(file) {
-            // In a real app, you would upload to Cloudinary, S3, etc.
-            // For this demo, we'll just use a placeholder
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    // This would be replaced with actual upload logic
-                    // For now, we'll just use the base64 data URL
-                    resolve(e.target.result);
-                };
-                reader.readAsDataURL(file);
-            });
         }
 
         // Form submission handler for new arrivals
@@ -481,10 +466,9 @@
                 submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
                 submitButton.disabled = true;
 
-                // Upload image if provided
-                const imageUrl = imageFile ? await uploadImage(imageFile) : 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+                // For demo purposes, we'll use a placeholder image URL
+                const imageUrl = imageFile ? 'placeholder-image-url' : 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
 
-                // Send data to server
                 const response = await fetch('/.netlify/functions/arrivals', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -498,13 +482,17 @@
                     }
                 });
 
-                if (!response.ok) throw new Error('Failed to add arrival');
+                const responseData = await response.json();
 
-                const newArrival = await response.json();
+                if (!response.ok) {
+                    // Check if the error message is in the response
+                    const errorMsg = responseData.error || 'Failed to add arrival';
+                    throw new Error(errorMsg);
+                }
 
                 // Create and add the new arrival card
                 if (emptyState) emptyState.remove();
-                arrivalsContainer.prepend(createArrivalCard(newArrival));
+                arrivalsContainer.prepend(createArrivalCard(responseData));
 
                 // Close the modal and reset form
                 addArrivalModal.classList.remove('open');
@@ -512,7 +500,18 @@
 
             } catch (err) {
                 console.error('Error adding arrival:', err);
-                alert('Failed to add new arrival: ' + err.message);
+
+                // More specific error messages
+                let userMessage = 'Failed to add new arrival';
+                if (err.message.includes('connection')) {
+                    userMessage = 'Cannot connect to database';
+                } else if (err.message.includes('violates unique constraint')) {
+                    userMessage = 'This item already exists';
+                } else if (err.message) {
+                    userMessage = err.message;
+                }
+
+                alert(userMessage + '. Please check console for details.');
             } finally {
                 // Reset button state
                 const submitButton = arrivalForm.querySelector('button[type="submit"]');
