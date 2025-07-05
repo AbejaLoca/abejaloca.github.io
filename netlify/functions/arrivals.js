@@ -8,33 +8,39 @@ const pool = new Pool({
     }
 });
 
-// Update the arrivals table to use bytea for image storage
-async function ensureTableExists() {
+// Verify and update table structure on startup
+async function verifyTableStructure() {
     const client = await pool.connect();
     try {
-        await client.query(`
-            CREATE TABLE IF NOT EXISTS arrivals (
-                                                    id SERIAL PRIMARY KEY,
-                                                    title VARCHAR(255) NOT NULL,
-                description TEXT NOT NULL,
-                price DECIMAL(10, 2) NOT NULL,
-                image_data BYTEA,
-                image_type VARCHAR(50),
-                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-                                         )
-        `);
-        console.log('Arrivals table verified');
+        // Check if columns exist
+        const { rows } = await client.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name = 'arrivals'
+    `);
+
+        const columns = rows.map(row => row.column_name);
+
+        // Add missing columns if needed
+        if (!columns.includes('image_data')) {
+            await client.query('ALTER TABLE arrivals ADD COLUMN image_data BYTEA');
+        }
+        if (!columns.includes('image_type')) {
+            await client.query('ALTER TABLE arrivals ADD COLUMN image_type VARCHAR(50)');
+        }
+
     } catch (err) {
-        console.error('Error ensuring table exists:', err);
+        console.error('Error verifying table structure:', err);
         throw err;
     } finally {
         client.release();
     }
 }
 
-exports.handler = async (event, context) => {
-    await ensureTableExists();
+// Run verification when function loads
+verifyTableStructure().catch(console.error);
 
+exports.handler = async (event, context) => {
     const headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
@@ -47,12 +53,17 @@ exports.handler = async (event, context) => {
 
     try {
         if (event.httpMethod === 'GET') {
-            const { rows } = await pool.query('SELECT id, title, description, price, image_type, created_at FROM arrivals ORDER BY created_at DESC');
+            const { rows } = await pool.query(`
+        SELECT id, title, description, price, image_data, image_type, created_at 
+        FROM arrivals 
+        ORDER BY created_at DESC
+      `);
 
-            // Convert image data to base64 for each row
             const rowsWithImages = rows.map(row => ({
                 ...row,
-                image_url: row.image_type ? `data:${row.image_type};base64,${row.image_data.toString('base64')}` : null
+                image_url: row.image_data ?
+                    `data:${row.image_type};base64,${row.image_data.toString('base64')}` :
+                    null
             }));
 
             return {
@@ -66,16 +77,23 @@ exports.handler = async (event, context) => {
             const { title, description, price, image_data, image_type } = JSON.parse(event.body);
 
             const { rows } = await pool.query(
-                `INSERT INTO arrivals (title, description, price, image_data, image_type)
-                 VALUES ($1, $2, $3, $4, $5)
-                     RETURNING id, title, description, price, image_type, created_at`,
-                [title, description, price, Buffer.from(image_data, 'base64'), image_type]
+                `INSERT INTO arrivals (title, description, price, image_data, image_type) 
+         VALUES ($1, $2, $3, $4, $5) 
+         RETURNING id, title, description, price, image_data, image_type, created_at`,
+                [
+                    title,
+                    description,
+                    price,
+                    image_data ? Buffer.from(image_data, 'base64') : null,
+                    image_type
+                ]
             );
 
-            // Convert the returned row to include base64 image URL
             const result = {
                 ...rows[0],
-                image_url: `data:${rows[0].image_type};base64,${rows[0].image_data.toString('base64')}`
+                image_url: rows[0].image_data ?
+                    `data:${rows[0].image_type};base64,${rows[0].image_data.toString('base64')}` :
+                    null
             };
 
             return {
@@ -91,7 +109,11 @@ exports.handler = async (event, context) => {
         return {
             statusCode: 500,
             headers,
-            body: JSON.stringify({ error: err.message }),
+            body: JSON.stringify({
+                error: 'Database operation failed',
+                details: err.message,
+                hint: 'Please verify the database schema matches the expected structure'
+            }),
         };
     }
 };
