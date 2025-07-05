@@ -391,13 +391,37 @@
             addArrivalModal.classList.remove('open');
         });
 
+        // Function to process image files to base64
+        async function processImageFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const base64String = e.target.result.split(',')[1];
+                    resolve({
+                        data: base64String,
+                        type: file.type
+                    });
+                };
+                reader.onerror = (error) => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
         // Function to create an arrival card
         function createArrivalCard(arrival) {
             const arrivalCard = document.createElement('div');
             arrivalCard.className = 'bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow';
+
+            // Create image URL from base64 data
+            const imageUrl = arrival.image_data ?
+                `data:${arrival.image_type};base64,${arrival.image_data}` :
+                'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80';
+
             arrivalCard.innerHTML = `
             <div class="relative">
-                <img src="${arrival.image_url}" alt="${arrival.title}" class="w-full h-48 object-cover">
+                <img src="${imageUrl}"
+                     alt="${arrival.title}"
+                     class="w-full h-48 object-cover">
                 <div class="absolute top-2 right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                     $${arrival.price}
                 </div>
@@ -454,45 +478,44 @@
         arrivalForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const imageFile = document.getElementById('songImage').files[0];
-            const title = document.getElementById('songTitle').value;
-            const description = document.getElementById('songDescription').value;
-            const price = parseFloat(document.getElementById('songPrice').value).toFixed(2);
+            const submitButton = arrivalForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
 
             try {
-                // Show loading state
-                const submitButton = arrivalForm.querySelector('button[type="submit"]');
-                const originalButtonText = submitButton.innerHTML;
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
-                submitButton.disabled = true;
+                const title = document.getElementById('songTitle').value;
+                const description = document.getElementById('songDescription').value;
+                const price = parseFloat(document.getElementById('songPrice').value).toFixed(2);
+                const imageFile = document.getElementById('songImage').files[0];
 
-                // For demo purposes, we'll use a placeholder image URL
-                const imageUrl = imageFile ? 'placeholder-image-url' : 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+                let imageData = null;
+                if (imageFile) {
+                    imageData = await processImageFile(imageFile);
+                }
 
                 const response = await fetch('/.netlify/functions/arrivals', {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         title,
                         description,
                         price,
-                        image_url: imageUrl
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                        image_data: imageData?.data || null,
+                        image_type: imageData?.type || null
+                    })
                 });
 
-                const responseData = await response.json();
+                const result = await response.json();
 
                 if (!response.ok) {
-                    // Check if the error message is in the response
-                    const errorMsg = responseData.error || 'Failed to add arrival';
+                    const errorMsg = result.error || 'Failed to add arrival';
                     throw new Error(errorMsg);
                 }
 
                 // Create and add the new arrival card
                 if (emptyState) emptyState.remove();
-                arrivalsContainer.prepend(createArrivalCard(responseData));
+                arrivalsContainer.prepend(createArrivalCard(result));
 
                 // Close the modal and reset form
                 addArrivalModal.classList.remove('open');
@@ -501,7 +524,6 @@
             } catch (err) {
                 console.error('Error adding arrival:', err);
 
-                // More specific error messages
                 let userMessage = 'Failed to add new arrival';
                 if (err.message.includes('connection')) {
                     userMessage = 'Cannot connect to database';
@@ -514,11 +536,8 @@
                 alert(userMessage + '. Please check console for details.');
             } finally {
                 // Reset button state
-                const submitButton = arrivalForm.querySelector('button[type="submit"]');
-                if (submitButton) {
-                    submitButton.innerHTML = originalButtonText;
-                    submitButton.disabled = false;
-                }
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
             }
         });
 
