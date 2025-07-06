@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@netlify/functions": "^4.1.9",
     "@tailwindcss/postcss": "^4.1.11",
     "dotenv": "^17.0.1",
     "pg": "^8.16.3",

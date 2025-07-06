@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AbejaLoca - Tienda de Música</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        honey: {
+                            50: '#fef9e7',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        }
+                    },
+                    animation: {
+                        'buzz': 'buzz 0.3s infinite alternate',
+                        'float': 'float 3s ease-in-out infinite',
+                        'honey-drip': 'honeyDrip 0.4s ease-out',
+                    },
+                    keyframes: {
+                        buzz: {
+                            '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+                            '25%': { transform: 'translate(-2px, -1px) rotate(-1deg)' },
+                            '50%': { transform: 'translate(1px, 2px) rotate(1deg)' },
+                            '75%': { transform: 'translate(2px, -1px) rotate(-1deg)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        honeyDrip: {
+                            '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .honeycomb-bg {
+            position: fixed;
+            inset: 0;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='87' viewBox='0 0 100 87' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0L93.3 25V62L50 87L6.7 62V25L50 0Z' fill='%23d97706'/%3E%3C/svg%3E");
+            background-size: 100px 87px;
+            z-index: -10;
+        }
+        .hive-nav {
+            background: linear-gradient(135deg,
+            rgba(251, 191, 36, 0.9) 0%,
+            rgba(245, 158, 11, 0.9) 50%,
+            rgba(251, 191, 36, 0.9) 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid rgba(210, 140, 0, 0.3);
+        }
+        .hive-cell {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            margin: 0 -10px;
+        }
+        .hive-cell:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-5px) scale(1.05);
+        }
+        .hive-cell.active {
+            background-color: rgba(255, 255, 255, 0.6);
+            box-shadow: inset 0 0 15px rgba(210, 140, 0, 0.4);
+        }
+        .hive-cell::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0.1) 100%);
+            z-index: -1;
+        }
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(to bottom right,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(254, 243, 199, 0.6) 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg,
+            #f59e0b 0%,
+            #fcd34d 50%,
+            #f59e0b 100%);
+        }
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        .product-image {
+            transition: transform 0.5s ease;
+        }
+        .mobile-nav {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            background: linear-gradient(to bottom right,
+            rgba(254, 243, 199, 0.98) 0%,
+            rgba(251, 191, 36, 0.95) 100%);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-nav.open {
+            transform: translateX(0);
+        }
+        .nav-item {
+            position: relative;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .nav-item:hover {
+            border-left: 3px solid #d97706;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .nav-item::before {
+            content: '🐝';
+            position: absolute;
+            left: -30px;
+            transition: all 0.3s ease;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+        }
+        .nav-item:hover::before {
+            left: 10px;
+            animation: buzz 0.3s infinite alternate;
+        }
+        .filter-section {
+            background: linear-gradient(to bottom right,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(254, 243, 199, 0.7) 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        .footer-bg {
+            background: linear-gradient(135deg,
+            #b45309 0%,
+            #d97706 50%,
+            #f59e0b 100%);
+            border-top: 2px solid rgba(251, 191, 36, 0.5);
+        }
+        .modal-bg {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            animation: honeyDrip 0.4s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 text-gray-800 font-sans overflow-x-hidden">
+<!-- Honeycomb Background Pattern -->
+<div class="honeycomb-bg"></div>
+
+<!-- Background Bees Container -->
+<div id="beeContainer" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+<!-- Header with Logo and Navigation -->
+<header class="fixed top-0 left-0 right-0 z-50">
+    <div class="hive-nav px-4 py-2">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img id="logo" src="assets/abejaloca.png" alt="AbejaLoca Logo"
+                     class="h-14 w-auto cursor-pointer transform hover:scale-110 transition-transform duration-300">
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-1">
+                <a href="index.html" class="hive-cell px-8 py-4 text-gray-800 font-bold text-lg text-center">Inicio</a>
+                <a href="store.html" class="hive-cell active px-8 py-4 text-gray-800 font-bold text-lg text-center">Tienda</a>
+                <a href="about.html" class="hive-cell px-8 py-4 text-gray-800 font-bold text-lg text-center">Sobre Nosotros</a>
+                <button id="newPostBtn" class="hive-cell px-6 py-3 text-gray-800 font-bold text-lg text-center hidden bg-gradient-to-r from-honey-400 to-honey-600 rounded-full shadow-md hover:shadow-lg transition-shadow">
+                    🐝 Nuevo Producto
+                </button>
+            </nav>
+
+            <!-- Mobile Hamburger Menu -->
+            <button id="hamburgerBtn" class="md:hidden text-3xl focus:outline-none transform hover:scale-110 transition-transform">
+                <span class="text-honey-700">🍯</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobileNav" class="mobile-nav fixed top-0 right-0 h-full w-64 z-50 p-6">
+        <button id="closeNavBtn" class="absolute top-4 right-4 text-2xl text-honey-700 hover:text-honey-900">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mt-16 flex flex-col space-y-3">
+            <a href="index.html" class="nav-item px-4 py-3 text-gray-800 font-bold text-lg rounded-lg">Inicio</a>
+            <a href="store.html" class="nav-item px-4 py-3 text-gray-800 font-bold text-lg rounded-lg">Tienda</a>
+            <a href="about.html" class="nav-item px-4 py-3 text-gray-800 font-bold text-lg rounded-lg">Sobre Nosotros</a>
+            <button id="mobileNewPostBtn" class="nav-item px-4 py-3 text-gray-800 font-bold text-lg rounded-lg hidden bg-gradient-to-r from-honey-400 to-honey-600">
+                🐝 Nuevo Producto
+            </button>
+        </div>
+        <div class="absolute bottom-6 left-6 right-6 text-center">
+            <div class="text-4xl animate-float">🐝</div>
+        </div>
+    </div>
+</header>
+
+<!-- New Product Modal -->
+<div id="newProductModal" class="fixed inset-0 modal-bg flex items-center justify-center z-[1000] hidden">
+    <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full relative max-h-[90vh] overflow-y-auto p-8 modal-content">
+        <button id="closeProductModal" class="absolute top-4 right-4 text-2xl text-honey-600 hover:text-honey-800">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2 class="text-3xl font-bold mb-6 text-honey-700 text-center border-b-2 border-honey-200 pb-3">Nuevo Producto</h2>
+        <form id="productForm" class="space-y-5">
+            <!-- Form content remains the same as before -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label for="productImage" class="block text-sm font-medium text-gray-700 mb-1">Imagen del Producto</label>
+                    <div class="mt-1 flex items-center">
+                        <label class="cursor-pointer bg-honey-100 hover:bg-honey-200 text-honey-800 py-2 px-4 rounded-md border border-honey-300 transition-colors w-full text-center">
+                            <i class="fas fa-upload mr-2"></i>
+                            Seleccionar archivo
+                            <input type="file" id="productImage" name="productImage" accept="image/*" class="hidden" required>
+                        </label>
+                    </div>
+                    <div id="fileNameDisplay" class="text-sm text-gray-500 mt-1 truncate"></div>
+                </div>
+                <div>
+                    <label for="productTitle" class="block text-sm font-medium text-gray-700 mb-1">Título</label>
+                    <input type="text" id="productTitle" name="productTitle"
+                           class="mt-1 block w-full border border-honey-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-honey-500 focus:border-honey-500" required>
+                </div>
+            </div>
+
+            <!-- Rest of form fields... -->
+
+            <div class="pt-4">
+                <button type="submit" class="w-full bg-gradient-to-r from-honey-500 to-honey-700 text-white py-3 px-4 rounded-md font-bold text-lg hover:shadow-lg transition-all">
+                    <i class="fas fa-plus-circle mr-2"></i> Crear Producto
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Main Content -->
+<main class="relative z-10 pt-28 pb-16 px-4 sm:px-6">
+    <!-- Search and Filter Section -->
+    <div class="max-w-7xl mx-auto mb-10 filter-section p-6 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-honey-700 mb-6 text-center">Busca tu música favorita</h2>
+        <div class="flex flex-col md:flex-row gap-5">
+            <!-- Search Input -->
+            <div class="flex-1">
+                <label for="searchInput" class="block text-sm font-medium text-gray-700 mb-1">Buscar</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-honey-500"></i>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Canción, álbum o artista..."
+                           class="pl-10 block w-full border border-honey-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-honey-500 focus:border-honey-500">
+                </div>
+            </div>
+
+            <!-- Genre Filter -->
+            <div class="flex-1">
+                <label for="genreFilter" class="block text-sm font-medium text-gray-700 mb-1">Género</label>
+                <div class="relative">
+                    <select id="genreFilter"
+                            class="block w-full border border-honey-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-honey-500 focus:border-honey-500 appearance-none bg-white">
+                        <option value="">Todos los géneros</option>
+                        <!-- Genres will be populated by JavaScript -->
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <i class="fas fa-chevron-down text-honey-500"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="flex-1">
+                <label for="priceFilter" class="block text-sm font-medium text-gray-700 mb-1">Precio</label>
+                <div class="relative">
+                    <select id="priceFilter"
+                            class="block w-full border border-honey-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-honey-500 focus:border-honey-500 appearance-none bg-white">
+                        <option value="">Todos los precios</option>
+                        <option value="0-10">$0 - $10</option>
+                        <option value="10-20">$10 - $20</option>
+                        <option value="20-50">$20 - $50</option>
+                        <option value="50-100">$50 - $100</option>
+                        <option value="100+">$100+</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <i class="fas fa-chevron-down text-honey-500"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="flex items-end">
+                <button id="resetFilters" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-md border border-gray-300 transition-colors">
+                    <i class="fas fa-sync-alt mr-2"></i> Reiniciar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="productsContainer" class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <!-- Product cards will be loaded here by JavaScript -->
+    </div>
+
+    <!-- No Results Message -->
+    <div id="noResults" class="max-w-7xl mx-auto text-center py-16 hidden bg-gradient-to-br from-honey-50 to-honey-100 rounded-xl">
+        <div class="text-8xl mb-6 animate-float">🐝</div>
+        <h3 class="text-3xl font-bold text-honey-700 mb-3">No se encontraron productos</h3>
+        <p class="text-lg text-gray-600 mb-6">Prueba con otros términos de búsqueda o ajusta los filtros</p>
+        <button id="resetAllFilters" class="bg-honey-500 hover:bg-honey-600 text-white py-2 px-6 rounded-md transition-colors">
+            <i class="fas fa-filter mr-2"></i> Limpiar todos los filtros
+        </button>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer-bg text-white py-10 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center md:text-left">
+                <h3 class="text-xl font-bold mb-4 flex items-center justify-center md:justify-start">
+                    <img src="assets/abejaloca-white.png" alt="AbejaLoca Logo" class="h-8 mr-2"> AbejaLoca
+                </h3>
+                <p class="text-honey-200">Tu tienda de música favorita con el mejor sonido y vibraciones.</p>
+            </div>
+
+            <div class="text-center">
+                <h4 class="text-lg font-semibold mb-4">Enlaces rápidos</h4>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="text-honey-200 hover:text-white transition-colors">Inicio</a></li>
+                    <li><a href="store.html" class="text-honey-200 hover:text-white transition-colors">Tienda</a></li>
+                    <li><a href="about.html" class="text-honey-200 hover:text-white transition-colors">Sobre Nosotros</a></li>
+                </ul>
+            </div>
+
+            <div class="text-center md:text-right">
+                <h4 class="text-lg font-semibold mb-4">Síguenos</h4>
+                <div class="flex justify-center md:justify-end space-x-4">
+                    <a href="#" class="text-2xl text-white hover:text-honey-200 transition-colors"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-2xl text-white hover:text-honey-200 transition-colors"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-2xl text-white hover:text-honey-200 transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-2xl text-white hover:text-honey-200 transition-colors"><i class="fab fa-spotify"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-honey-500 mt-8 pt-6 text-center text-sm text-honey-200">
+            <p>© 2023 AbejaLoca - Todos los derechos reservados</p>
+            <p class="mt-1">Hecho con ❤️ y el zumbido de las abejas</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Template for Product Cards (hidden) -->
+<template id="productCardTemplate">
+    <div class="product-card rounded-xl overflow-hidden">
+        <div class="relative overflow-hidden">
+            <img src="" alt="Product Image" class="w-full h-64 object-cover product-image">
+            <div class="absolute top-3 right-3 bg-honey-600 text-white px-3 py-1 rounded-full text-xs font-bold product-genre shadow-md"></div>
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                <h3 class="product-title text-white font-bold text-xl mb-1"></h3>
+                <div class="flex justify-between items-center">
+                    <span class="product-price text-honey-300 font-bold"></span>
+                    <div class="bg-honey-500 hover:bg-honey-600 text-white px-3 py-1 rounded-full text-sm transition-colors">
+                        <i class="fas fa-shopping-cart mr-1"></i> Comprar
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-4">
+            <p class="product-description text-gray-600 text-sm line-clamp-2 mb-3"></p>
+            <a href="#" class="product-link w-full bg-honey-100 hover:bg-honey-200 text-honey-800 py-2 px-4 rounded-md text-center block transition-colors">
+                Ver detalles
+            </a>
+        </div>
+    </div>
+</template>
+
+<script src="js/main.js"></script>
+<script>
+    // Fixed bee animation script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile navigation toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const closeNavBtn = document.getElementById('closeNavBtn');
+        const mobileNav = document.getElementById('mobileNav');
+
+        hamburgerBtn.addEventListener('click', function() {
+            mobileNav.classList.add('open');
+        });
+
+        closeNavBtn.addEventListener('click', function() {
+            mobileNav.classList.remove('open');
+        });
+
+        // Create animated bees
+        const beeContainer = document.getElementById('beeContainer');
+        const beeCount = 12;
+        const beeTypes = ['🐝', '🌸', '🍯'];
+
+        for (let i = 0; i < beeCount; i++) {
+            const bee = document.createElement('div');
+            bee.className = 'absolute text-3xl animate-float';
+            bee.innerHTML = beeTypes[Math.floor(Math.random() * beeTypes.length)];
+
+            // Random properties
+            const size = Math.random() * 0.5 + 0.5;
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            const duration = 15 + Math.random() * 20;
+            const delay = Math.random() * 15;
+
+            // Apply styles
+            bee.style.fontSize = `${size}rem`;
+            bee.style.left = `${startX}%`;
+            bee.style.top = `${startY}%`;
+            bee.style.animationDuration = `${duration}s`;
+            bee.style.animationDelay = `${delay}s`;
+            bee.style.zIndex = Math.floor(Math.random() * 10);
+
+            beeContainer.appendChild(bee);
+        }
+
+        // Show selected file name
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Ningún archivo seleccionado';
+            document.getElementById('fileNameDisplay').textContent = fileName;
+        });
+
+        // Reset all filters button
+        document.getElementById('resetAllFilters')?.addEventListener('click', function() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('genreFilter').value = '';
+            document.getElementById('priceFilter').value = '';
+            if (typeof filterProducts === 'function') {
+                filterProducts();
+            }
+        });
+    });
+</script>
+</body>
+</html>

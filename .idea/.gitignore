@@ -7,5 +7,6 @@
 /dataSources/
 /dataSources.local.xml
 # Netfly Ignored Files
-/netlify/functions/arrivals.env
+/js/auth.js
+
 
